@@ -14,16 +14,12 @@ class EcranCompte extends StatelessWidget {
     final themeProvider = Provider.of<FournisseurTheme>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Compte'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Compte'), elevation: 0),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(24),
-              color: ConstantesApp.couleurFond,
               child: Column(
                 children: [
                   Stack(
@@ -71,7 +67,7 @@ class EcranCompte extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             _buildElementMenu(
               icone: Icons.person_outline,
               titre: 'Mon Compte',
@@ -109,7 +105,9 @@ class EcranCompte extends StatelessWidget {
                   context: context,
                   builder: (context) => AlertDialog(
                     title: const Text('Déconnexion'),
-                    content: const Text('Voulez-vous vraiment vous déconnecter?'),
+                    content: const Text(
+                      'Voulez-vous vraiment vous déconnecter?',
+                    ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
@@ -149,18 +147,12 @@ class EcranCompte extends StatelessWidget {
       leading: Icon(icone, color: estDestructeur ? Colors.red : null),
       title: Text(
         titre,
-        style: TextStyle(
-          color: estDestructeur ? Colors.red : null,
-        ),
+        style: TextStyle(color: estDestructeur ? Colors.red : null),
       ),
       trailing: estToggleable
-          ? Switch(
-              value: isActive,
-              onChanged: (_) => onTap(),
-            )
+          ? Switch(value: isActive, onChanged: (_) => onTap())
           : const Icon(Icons.chevron_right),
       onTap: estToggleable ? null : onTap,
     );
   }
 }
-

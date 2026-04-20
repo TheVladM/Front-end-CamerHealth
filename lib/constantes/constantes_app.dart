@@ -8,11 +8,13 @@ class ConstantesApp {
   static const Color couleurFond = Color(0xFFF5F5F5);
   static const Color couleurTexteFonce = Color(0xFF202124);
   static const Color couleurTexteClair = Color(0xFF5F6368);
+  static const Color couleurOmbre = Color(0xFF000000);
 
   static const String nomApp = 'CamerHealth';
   static const String messageBienvenue = 'Bienvenue !';
-  static const String salutation = 'Salut, De quoi avez vous besoin aujourd\'hui ?';
-  
+  static const String salutation =
+      'Salut, De quoi avez vous besoin aujourd\'hui ?';
+
   static const String statsGlobal = 'Global';
   static const String statsCameroun = 'Cameroun';
   static const String totalCas = 'Cas';

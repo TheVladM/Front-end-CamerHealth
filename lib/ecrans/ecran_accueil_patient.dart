@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constantes/constantes_app.dart';
 import '../fournisseurs/fournisseur_auth.dart';
-import '../widgets/menu_lateral.dart';
 import 'ecran_statistiques.dart';
 import 'ecran_prevention.dart';
 import 'ecran_symptomes.dart';
@@ -22,296 +21,621 @@ class EcranAccueilPatient extends StatefulWidget {
 class _EcranAccueilPatientState extends State<EcranAccueilPatient> {
   int _selectedIndex = 0;
 
-  Widget _getBodyWidget(int index) {
-    switch (index) {
-      case 0:
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                ConstantesApp.messageBienvenue,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                ConstantesApp.salutation,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: ConstantesApp.couleurTexteClair,
-                ),
-              ),
-              const SizedBox(height: 24),
-              
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1.2,
-                children: [
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.assignment,
-                    titre: 'Rapport du cas',
-                    couleur: Colors.blue,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranRapport()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.bar_chart,
-                    titre: 'Statistiques COVID-19',
-                    couleur: Colors.orange,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranStatistiques()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.shield,
-                    titre: 'Prévention COVID-19',
-                    couleur: Colors.green,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranPrevention()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.favorite,
-                    titre: 'Données vitales',
-                    couleur: Colors.red,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranDonneesVitales()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.sick,
-                    titre: 'Symptômes COVID-19',
-                    couleur: Colors.purple,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranSymptomes()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.medical_services,
-                    titre: 'Joindre un médecin',
-                    couleur: Colors.teal,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranJoindreMedecin()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.settings,
-                    titre: 'Réglages du compte',
-                    couleur: Colors.grey,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranCompte()),
-                    ),
-                  ),
-                  _buildCarteFonction(
-                    context,
-                    icone: Icons.chat,
-                    titre: 'Discussions',
-                    couleur: Colors.indigo,
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EcranListeDiscussions()),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      case 1:
-        return const Center(child: Text('Statistiques'));
-      case 2:
-        return const Center(child: Text('Discussions'));
-      case 3:
-        return const Center(child: Text('Compte'));
-      default:
-        return const Center(child: Text('Accueil'));
-    }
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    // Navigate if needed
-    switch (index) {
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const EcranStatistiques()),
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const EcranListeDiscussions()),
-        );
-        break;
-      case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const EcranCompte()),
-        );
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset('assets/logo.png', height: 40),
-        backgroundColor: ConstantesApp.couleurPrimaire,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
-          ),
+      // Plus de Drawer — navigation uniquement via la bottom bar
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          _AccueilBody(),
+          const EcranDonneesVitales(),
+          const EcranListeDiscussions(),
+          const EcranCompte(),
         ],
       ),
-      drawer: MenuLateral(
-        onMenuItemSelected: (item) {
-          final authProvider = Provider.of<FournisseurAuth>(context, listen: false);
-          switch (item) {
-            case 'accueil':
-              setState(() {
-                _selectedIndex = 0;
-              });
-              break;
-            case 'donnees_vitales':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranDonneesVitales()),
-              );
-              break;
-            case 'discussions':
-              setState(() {
-                _selectedIndex = 2;
-              });
-              break;
-            case 'statistiques':
-              setState(() {
-                _selectedIndex = 1;
-              });
-              break;
-            case 'joindre_medecin':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranJoindreMedecin()),
-              );
-              break;
-            case 'symptomes':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranSymptomes()),
-              );
-              break;
-            case 'prevention':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranPrevention()),
-              );
-              break;
-            case 'compte':
-              setState(() {
-                _selectedIndex = 3;
-              });
-              break;
-            case 'deconnexion':
-              authProvider.deconnexion();
-              break;
-          }
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        elevation: 8,
+        shadowColor: Colors.black.withOpacity(0.08),
+        indicatorColor: ConstantesApp.couleurPrimaire.withOpacity(0.12),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        onDestinationSelected: (index) {
+          setState(() => _selectedIndex = index);
         },
-      ),
-      body: _getBodyWidget(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(
+              Icons.home,
+              color: ConstantesApp.couleurPrimaire,
+            ),
             label: 'Accueil',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Statistiques',
+          NavigationDestination(
+            icon: Icon(Icons.favorite_outline),
+            selectedIcon: Icon(Icons.favorite, color: Color(0xFFE53935)),
+            label: 'Vitales',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Discussions',
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(
+              Icons.chat_bubble,
+              color: ConstantesApp.couleurPrimaire,
+            ),
+            label: 'Messages',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Compte',
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(
+              Icons.person,
+              color: ConstantesApp.couleurPrimaire,
+            ),
+            label: 'Profil',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: ConstantesApp.couleurPrimaire,
-        backgroundColor: ConstantesApp.couleurPrimaire,
-        onTap: _onItemTapped,
       ),
     );
   }
 }
 
-Widget _buildCarteFonction(
-    BuildContext context, {
-    required IconData icone,
-    required String titre,
-    required Color couleur,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+/// Corps de l'écran d'accueil patient
+class _AccueilBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = Provider.of<FournisseurAuth>(context);
+    final prenom = authProvider.utilisateurActuel?.nomUtilisateur ?? 'Patient';
+
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: couleur.withOpacity(0.1),
-                shape: BoxShape.circle,
+            _buildHeader(prenom),
+            const SizedBox(height: 20),
+            _buildCapteurCard(),
+            const SizedBox(height: 20),
+            _buildSectionConstantesVitales(),
+            const SizedBox(height: 24),
+            const Text(
+              'Services',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: ConstantesApp.couleurTexteClair,
               ),
-              child: Icon(icone, size: 32, color: couleur),
             ),
             const SizedBox(height: 12),
-            Text(
-              titre,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            _buildServicesGrid(context),
+            const SizedBox(height: 16),
           ],
         ),
       ),
     );
   }
+
+  // ─── Header ────────────────────────────────────────────────────────────────
+
+  Widget _buildHeader(String prenom) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              ConstantesApp.salutation,
+              style: TextStyle(
+                fontSize: 14,
+                color: ConstantesApp.couleurTexteClair,
+              ),
+            ),
+            Text(
+              prenom,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        _buildNotificationBell(),
+      ],
+    );
+  }
+
+  Widget _buildNotificationBell() {
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            // color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.07),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: IconButton(
+            icon: const Icon(
+              Icons.notifications_outlined,
+              size: 24,
+              color: ConstantesApp.couleurSecondaire,
+            ),
+            onPressed: () {},
+          ),
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: Color(0xFFEA4335),
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ─── Carte Capteur IoT ─────────────────────────────────────────────────────
+
+  Widget _buildCapteurCard() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        // color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: ConstantesApp.couleurPrimaire.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.bluetooth,
+              color: ConstantesApp.couleurPrimaire,
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 14),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Google pixel watch 1',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Connecté et actif',
+                  style: TextStyle(
+                    color: Color(0xFF34A853),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.chevron_right,
+              color: ConstantesApp.couleurPrimaire,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Constantes Vitales ────────────────────────────────────────────────────
+
+  Widget _buildSectionConstantesVitales() {
+    return Column(
+      children: [
+        // Titre de section + indicateur "En direct"
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Constantes Vitales',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF34A853),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                const Text(
+                  'En direct',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF34A853),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        // BPM + SpO2 côte à côte
+        Row(
+          children: [
+            Expanded(child: _buildCarteBPM()),
+            const SizedBox(width: 12),
+            Expanded(child: _buildCarteNbrePas()),
+          ],
+        ),
+        const SizedBox(height: 12),
+        // Température pleine largeur
+        _buildCarteTemperature(),
+      ],
+    );
+  }
+
+  Widget _buildCarteBPM() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: _carteDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              _iconeVitale(Icons.favorite, const Color(0xFFE53935)),
+              const SizedBox(width: 6),
+              const Text(
+                'Nbre BPM',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13,
+                  color: ConstantesApp.couleurTexteClair,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Text(
+                '72',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 8),
+              _badgeStatut('Normal', const Color(0xFF34A853)),
+            ],
+          ),
+          const SizedBox(height: 10),
+          // Mini courbe (sparkline statique — sera animée avec les données IoT)
+          SizedBox(
+            height: 28,
+            child: CustomPaint(
+              size: const Size(double.infinity, 28),
+              painter: _SparklinePainter(color: const Color(0xFFE53935)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarteNbrePas() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: _carteDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              _iconeVitale(Icons.directions_run, const Color(0xFF00ACC1)),
+              const SizedBox(width: 6),
+              const Text(
+                'Pas journaliers',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13,
+                  color: ConstantesApp.couleurTexteClair,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '98',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'pas',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: ConstantesApp.couleurTexteClair,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: 0.98,
+              backgroundColor: const Color(0xFF00ACC1).withOpacity(0.15),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Color(0xFF00ACC1),
+              ),
+              minHeight: 6,
+            ),
+          ),
+          const SizedBox(height: 4),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarteTemperature() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: _carteDecoration(),
+      child: Row(
+        children: [
+          _iconeVitale(
+            Icons.thermostat,
+            const Color(0xFFFB8C00),
+            size: 20,
+            padding: 8,
+          ),
+          const SizedBox(width: 14),
+          const Text(
+            'Température corporelle',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: ConstantesApp.couleurTexteClair,
+            ),
+          ),
+          const Spacer(),
+          const Text(
+            '36.7°C',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Grille de services ────────────────────────────────────────────────────
+
+  Widget _buildServicesGrid(BuildContext context) {
+    final services = [
+      _ServiceItem(
+        icon: Icons.assignment,
+        label: 'Rapports',
+        color: ConstantesApp.couleurPrimaire,
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EcranRapport()),
+        ),
+      ),
+      _ServiceItem(
+        icon: Icons.bar_chart,
+        label: 'Statistiques',
+        color: const Color(0xFFFB8C00),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EcranStatistiques()),
+        ),
+      ),
+      _ServiceItem(
+        icon: Icons.shield,
+        label: 'Prévention',
+        color: ConstantesApp.couleurSecondaire,
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EcranPrevention()),
+        ),
+      ),
+      _ServiceItem(
+        icon: Icons.sick,
+        label: 'Symptômes',
+        color: const Color(0xFF9C27B0),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EcranSymptomes()),
+        ),
+      ),
+      _ServiceItem(
+        icon: Icons.medical_services,
+        label: 'Médecin',
+        color: const Color(0xFF00ACC1),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EcranJoindreMedecin()),
+        ),
+      ),
+      _ServiceItem(
+        icon: Icons.notifications_active,
+        label: 'Alertes',
+        color: ConstantesApp.couleurErreur,
+        onTap: () {
+          // TODO : EcranAlertes
+        },
+      ),
+    ];
+
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 3,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      childAspectRatio: 1.0,
+      children: services.map(_buildCarteService).toList(),
+    );
+  }
+
+  Widget _buildCarteService(_ServiceItem service) {
+    return Card(
+      elevation: 2,
+      child: GestureDetector(
+        onTap: service.onTap,
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: service.color.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(service.icon, color: service.color, size: 22),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                service.label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: ConstantesApp.couleurTexteClair,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ─── Helpers ───────────────────────────────────────────────────────────────
+
+  BoxDecoration _carteDecoration() {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: ConstantesApp.couleurOmbre.withOpacity(0.1),
+          blurRadius: 8,
+          offset: const Offset(0, 2),
+        ),
+      ],
+    );
+  }
+
+  Widget _iconeVitale(
+    IconData icon,
+    Color color, {
+    double size = 16,
+    double padding = 6,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(padding),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(icon, color: color, size: size),
+    );
+  }
+
+  Widget _badgeStatut(String label, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Modèle interne pour les services ──────────────────────────────────────
+
+class _ServiceItem {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _ServiceItem({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+}
+
+// ─── Sparkline statique (sera remplacée par des données IoT en temps réel) ──
+
+class _SparklinePainter extends CustomPainter {
+  final Color color;
+
+  const _SparklinePainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    // Points représentant un rythme cardiaque typique (statiques pour l'instant)
+    const points = [0.5, 0.45, 0.55, 0.2, 0.9, 0.3, 0.6, 0.45, 0.5];
+    final path = Path();
+
+    for (int i = 0; i < points.length; i++) {
+      final x = size.width * i / (points.length - 1);
+      final y = size.height * (1 - points[i]);
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
