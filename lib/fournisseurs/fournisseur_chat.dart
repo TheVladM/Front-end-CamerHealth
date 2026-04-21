@@ -63,6 +63,7 @@ class FournisseurChat extends ChangeNotifier {
     return _conversations.entries.map((entry) {
       final dernierMessage = entry.value.last;
       return {
+        'id': entry.key, // Utilise le nom comme ID pour l'instant
         'nom': entry.key,
         'dernierMessage': dernierMessage.contenu,
         'heure': dernierMessage.tempsRelatif,
@@ -75,7 +76,7 @@ class FournisseurChat extends ChangeNotifier {
     return _conversations[nomContact] ?? [];
   }
 
-  void envoyerMessage(String nomContact, String contenu, {bool estDeMedecin = true}) {
+  void envoyerMessage(String nomContact, String contenu, {bool estDeMedecin = true, TypeMessage type = TypeMessage.texte, String? urlMedia}) {
     final nouveauMessage = Message(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       expediteurId: estDeMedecin ? 'medecin' : 'patient',
@@ -83,6 +84,8 @@ class FournisseurChat extends ChangeNotifier {
       contenu: contenu,
       horodatage: DateTime.now(),
       estLu: true,
+      type: type,
+      urlMedia: urlMedia,
     );
     
     if (_conversations.containsKey(nomContact)) {

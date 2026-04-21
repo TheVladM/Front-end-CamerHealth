@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../constantes/constantes_app.dart';
-import '../fournisseurs/fournisseur_auth.dart';
 import '../modeles/patient.dart';
 import '../widgets/carte_patient.dart';
-import '../widgets/menu_lateral.dart';
-import 'ecran_donnees_vitales.dart';
 import 'ecran_liste_discussions.dart';
 import 'ecran_statistiques.dart';
-import 'ecran_prevention.dart';
-import 'ecran_symptomes.dart';
-import 'ecran_joindre_medecin.dart';
 import 'ecran_compte.dart';
+import 'ecran_profil_patient.dart';
 
 class EcranAccueilMedecin extends StatefulWidget {
   const EcranAccueilMedecin({super.key});
@@ -82,11 +76,21 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
                 itemCount: Patient.patientsMock.length,
                 itemBuilder: (context, index) {
                   final patient = Patient.patientsMock[index];
-                  return CartePatient(
-                    id: patient.id,
-                    nom: patient.nom.split(' ').last,
-                    prenom: patient.nom.split(' ').first,
-                    age: 30, // Valeur par défaut, à ajuster selon les besoins
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EcranProfilPatient(patient: patient),
+                        ),
+                      );
+                    },
+                    child: CartePatient(
+                      id: patient.id,
+                      nom: patient.nom.split(' ').last,
+                      prenom: patient.nom.split(' ').first,
+                      age: 30, // Valeur par défaut, à ajuster selon les besoins
+                    ),
                   );
                 },
               ),
@@ -114,89 +118,130 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: RecherchePatientDelegate(),
+              );
+            },
           ),
         ],
       ),
-      drawer: MenuLateral(
-        onMenuItemSelected: (item) {
-          final authProvider = Provider.of<FournisseurAuth>(context, listen: false);
-          switch (item) {
-            case 'accueil':
-              setState(() {
-                _selectedIndex = 0;
-              });
-              break;
-            case 'donnees_vitales':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranDonneesVitales()),
-              );
-              break;
-            case 'discussions':
-              setState(() {
-                _selectedIndex = 2;
-              });
-              break;
-            case 'statistiques':
-              setState(() {
-                _selectedIndex = 1;
-              });
-              break;
-            case 'joindre_medecin':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranJoindreMedecin()),
-              );
-              break;
-            case 'symptomes':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranSymptomes()),
-              );
-              break;
-            case 'prevention':
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EcranPrevention()),
-              );
-              break;
-            case 'compte':
-              setState(() {
-                _selectedIndex = 3;
-              });
-              break;
-            case 'deconnexion':
-              authProvider.deconnexion();
-              break;
-          }
-        },
-      ),
+
       body: _getBodyWidget(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        elevation: 8,
+        shadowColor: Colors.black.withOpacity(0.08),
+        indicatorColor: ConstantesApp.couleurPrimaire.withOpacity(0.12),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        onDestinationSelected: _onItemTapped,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(
+              Icons.home,
+              color: ConstantesApp.couleurPrimaire,
+            ),
             label: 'Accueil',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Statistiques',
+          NavigationDestination(
+            icon: Icon(Icons.bar_chart_outlined),
+            selectedIcon: Icon(
+              Icons.bar_chart,
+              color: ConstantesApp.couleurPrimaire,
+            ),
+            label: 'Stats',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Discussions',
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(
+              Icons.chat_bubble,
+              color: ConstantesApp.couleurPrimaire,
+            ),
+            label: 'Messages',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Compte',
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(
+              Icons.person,
+              color: ConstantesApp.couleurPrimaire,
+            ),
+            label: 'Profil',
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: ConstantesApp.couleurPrimaire,
-        backgroundColor: ConstantesApp.couleurPrimaire,
-        onTap: _onItemTapped,
       ),
+    );
+  }
+}
+
+class RecherchePatientDelegate extends SearchDelegate<Patient?> {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final resultats = Patient.patientsMock.where((p) =>
+        p.nom.toLowerCase().contains(query.toLowerCase())).toList();
+
+    return _buildListeResultats(resultats);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestions = Patient.patientsMock.where((p) =>
+        p.nom.toLowerCase().contains(query.toLowerCase())).toList();
+
+    return _buildListeResultats(suggestions);
+  }
+
+  Widget _buildListeResultats(List<Patient> resultats) {
+    if (resultats.isEmpty) {
+      return const Center(
+        child: Text('Aucun patient trouvé'),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: resultats.length,
+      itemBuilder: (context, index) {
+        final patient = resultats[index];
+        return ListTile(
+          leading: const CircleAvatar(
+            child: Icon(Icons.person),
+          ),
+          title: Text(patient.nom),
+          subtitle: Text('ID: ${patient.id}'),
+          onTap: () {
+            close(context, patient);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EcranProfilPatient(patient: patient),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

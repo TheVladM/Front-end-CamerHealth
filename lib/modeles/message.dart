@@ -1,3 +1,5 @@
+enum TypeMessage { texte, image, audio, fichier }
+
 class Message {
   final String id;
   final String expediteurId;
@@ -5,6 +7,8 @@ class Message {
   final String contenu;
   final DateTime horodatage;
   final bool estLu;
+  final TypeMessage type;
+  final String? urlMedia;
 
   Message({
     required this.id,
@@ -13,6 +17,8 @@ class Message {
     required this.contenu,
     required this.horodatage,
     this.estLu = false,
+    this.type = TypeMessage.texte,
+    this.urlMedia,
   });
 
   String get tempsRelatif {

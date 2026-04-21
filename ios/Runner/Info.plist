@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Nous avons besoin de votre micro pour les messages vocaux.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Accès à la galerie pour envoyer des photos et documents.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Accès à la caméra pour prendre des photos médicales.</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>Accès nécessaire pour envoyer des fichiers audio.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
