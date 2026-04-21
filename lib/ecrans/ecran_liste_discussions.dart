@@ -9,32 +9,28 @@ class EcranListeDiscussions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Discussions'),
-        elevation: 0,
-      ),
-      body: Consumer<FournisseurChat>(
+    return SafeArea(
+      child: Consumer<FournisseurChat>(
         builder: (context, chatProvider, _) {
           final discussions = chatProvider.getApercusDiscussions();
-          
+
           if (discussions.isEmpty) {
-            return const Center(
-              child: Text('Aucune discussion'),
-            );
+            return const Center(child: Text('Aucune discussion'));
           }
-          
+
           return ListView.builder(
             itemCount: discussions.length,
             itemBuilder: (context, index) {
               final discussion = discussions[index];
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: ConstantesApp.couleurPrimaire.withOpacity(0.1),
+                  backgroundColor: ConstantesApp.couleurSecondaire.withOpacity(
+                    0.1,
+                  ),
                   child: Text(
                     discussion['nom'][0],
                     style: const TextStyle(
-                      color: ConstantesApp.couleurPrimaire,
+                      color: ConstantesApp.couleurSecondaire,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -43,9 +39,7 @@ class EcranListeDiscussions extends StatelessWidget {
                   children: [
                     Text(
                       discussion['nom'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     if (discussion['estEnLigne'] == true) ...[
                       const SizedBox(width: 8),
@@ -64,9 +58,7 @@ class EcranListeDiscussions extends StatelessWidget {
                   discussion['dernierMessage'],
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: ConstantesApp.couleurTexteClair,
-                  ),
+                  style: TextStyle(color: ConstantesApp.couleurTexteClair),
                 ),
                 trailing: Text(
                   discussion['heure'],
@@ -79,9 +71,8 @@ class EcranListeDiscussions extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => EcranDetailDiscussion(
-                        discussionId: discussion['id'],
-                      ),
+                      builder: (_) =>
+                          EcranDetailDiscussion(discussionId: discussion['id']),
                     ),
                   );
                 },

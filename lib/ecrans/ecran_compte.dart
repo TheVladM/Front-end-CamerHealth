@@ -13,9 +13,8 @@ class EcranCompte extends StatelessWidget {
     final utilisateur = authProvider.utilisateurActuel;
     final themeProvider = Provider.of<FournisseurTheme>(context);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Compte'), elevation: 0),
-      body: SingleChildScrollView(
+    return SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -73,11 +72,11 @@ class EcranCompte extends StatelessWidget {
               titre: 'Mon Compte',
               onTap: () {},
             ),
-            _buildElementMenu(
-              icone: Icons.notifications_outlined,
-              titre: 'Notifications',
-              onTap: () {},
-            ),
+            // _buildElementMenu(
+            //   icone: Icons.notifications_outlined,
+            //   titre: 'Notifications',
+            //   onTap: () {},
+            // ),
             _buildElementMenu(
               icone: Icons.brightness_4,
               titre: 'Mode Sombre',

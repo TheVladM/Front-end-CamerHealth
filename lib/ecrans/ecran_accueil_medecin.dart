@@ -1,3 +1,4 @@
+import 'package:camerhealth/widgets/barre_navigation_medecin.dart';
 import 'package:flutter/material.dart';
 import '../constantes/constantes_app.dart';
 import '../modeles/patient.dart';
@@ -54,19 +55,14 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
               padding: EdgeInsets.all(16),
               child: Text(
                 'Mes patients',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Patients enregistrés',
-                style: TextStyle(
-                  color: ConstantesApp.couleurTexteClair,
-                ),
+                style: TextStyle(color: ConstantesApp.couleurTexteClair),
               ),
             ),
             const SizedBox(height: 16),
@@ -81,7 +77,8 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EcranProfilPatient(patient: patient),
+                          builder: (context) =>
+                              EcranProfilPatient(patient: patient),
                         ),
                       );
                     },
@@ -129,47 +126,9 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
       ),
 
       body: _getBodyWidget(_selectedIndex),
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: BarreNavigationMedecin(
         selectedIndex: _selectedIndex,
-        elevation: 8,
-        shadowColor: Colors.black.withOpacity(0.08),
-        indicatorColor: ConstantesApp.couleurPrimaire.withOpacity(0.12),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        onDestinationSelected: _onItemTapped,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(
-              Icons.home,
-              color: ConstantesApp.couleurPrimaire,
-            ),
-            label: 'Accueil',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined),
-            selectedIcon: Icon(
-              Icons.bar_chart,
-              color: ConstantesApp.couleurPrimaire,
-            ),
-            label: 'Stats',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.chat_bubble_outline),
-            selectedIcon: Icon(
-              Icons.chat_bubble,
-              color: ConstantesApp.couleurPrimaire,
-            ),
-            label: 'Messages',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(
-              Icons.person,
-              color: ConstantesApp.couleurPrimaire,
-            ),
-            label: 'Profil',
-          ),
-        ],
+        onItemTapped: _onItemTapped,
       ),
     );
   }
@@ -200,25 +159,25 @@ class RecherchePatientDelegate extends SearchDelegate<Patient?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final resultats = Patient.patientsMock.where((p) =>
-        p.nom.toLowerCase().contains(query.toLowerCase())).toList();
+    final resultats = Patient.patientsMock
+        .where((p) => p.nom.toLowerCase().contains(query.toLowerCase()))
+        .toList();
 
     return _buildListeResultats(resultats);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = Patient.patientsMock.where((p) =>
-        p.nom.toLowerCase().contains(query.toLowerCase())).toList();
+    final suggestions = Patient.patientsMock
+        .where((p) => p.nom.toLowerCase().contains(query.toLowerCase()))
+        .toList();
 
     return _buildListeResultats(suggestions);
   }
 
   Widget _buildListeResultats(List<Patient> resultats) {
     if (resultats.isEmpty) {
-      return const Center(
-        child: Text('Aucun patient trouvé'),
-      );
+      return const Center(child: Text('Aucun patient trouvé'));
     }
 
     return ListView.builder(
@@ -226,9 +185,7 @@ class RecherchePatientDelegate extends SearchDelegate<Patient?> {
       itemBuilder: (context, index) {
         final patient = resultats[index];
         return ListTile(
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
-          ),
+          leading: const CircleAvatar(child: Icon(Icons.person)),
           title: Text(patient.nom),
           subtitle: Text('ID: ${patient.id}'),
           onTap: () {
