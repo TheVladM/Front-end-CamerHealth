@@ -9,6 +9,7 @@ import 'ecrans/ecran_connexion.dart';
 import 'ecrans/ecran_accueil_patient.dart';
 import 'ecrans/ecran_accueil_medecin.dart';
 import 'ecrans/ecran_inscription.dart';
+import 'ecrans/ecran_ouverture.dart';
 
 void main() {
   runApp(
@@ -37,23 +38,24 @@ class CamerHealthApp extends StatelessWidget {
           theme: themeProvider.obtenirTheme(),
           darkTheme: themeProvider.obtenirTheme(),
           themeMode: themeProvider.estModeSombre ? ThemeMode.dark : ThemeMode.light,
-          home: Consumer<FournisseurAuth>(
-            builder: (context, authProvider, _) {
-              if (authProvider.estConnecte) {
-                if (authProvider.roleUtilisateur == RoleUtilisateur.patient) {
-                  return const EcranAccueilPatient();
-                } else {
-                  return const EcranAccueilMedecin();
-                }
-              }
-              return const EcranConnexion();
-            },
-          ),
+          home: EcranOuverture(),
           routes: {
             '/connexion': (context) => const EcranConnexion(),
             '/inscription': (context) => const EcranInscription(),
             '/accueil-patient': (context) => const EcranAccueilPatient(),
             '/accueil-medecin': (context) => const EcranAccueilMedecin(),
+            '/accueil': (context) => Consumer<FournisseurAuth>(
+              builder: (context, authProvider, _) {
+                if (authProvider.estConnecte) {
+                  if (authProvider.roleUtilisateur == RoleUtilisateur.patient) {
+                    return const EcranAccueilPatient();
+                  } else {
+                    return const EcranAccueilMedecin();
+                  }
+                }
+                return const EcranConnexion();
+              },
+            ),
           },
         );
       },
