@@ -21,29 +21,24 @@ class _EcranOuvertureState extends State<EcranOuverture> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFB3E5FC).withOpacity(0.3), // Violet clair en haut (30%)
-              Color(0xFF0D47A1), // Bleu en bas (70%)
-            ],
-            transform: GradientRotation(70 * 3.14159 / 180), // Inclinaison de 70 degrés
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/2.png'),
+            fit: BoxFit.cover,
           ),
         ),
         child: Stack(
-        children: [
+          children: [
           // Image de fond en bas à partir du milieu
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/2.png',
+              'assets/3.png',
               width: double.infinity,
               fit: BoxFit.cover,
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.5, // Prend la moitié de la hauteur de l'écran
               //color: Colors.white.withOpacity(0.1),
               colorBlendMode: BlendMode.overlay,
             ),
@@ -53,26 +48,39 @@ class _EcranOuvertureState extends State<EcranOuverture> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Spacer(),
-                Image.asset(
-                  'assets/logo.png',
-                  width: 100,
-                  height: 100,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'CAMERHEALTH',
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: ConstantesApp.couleurSecondaire,
-                    letterSpacing: 2,
+                SizedBox(height: 10),
+                ShaderMask(
+                  shaderCallback: (bounds) => LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF4FC3F7),
+                      Color(0xFF0D47A1),
+                    ],
+                    transform: GradientRotation(70 * 3.14159 / 180),
+                  ).createShader(bounds),
+                  child: Text(
+                    ConstantesApp.nomApp,
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // ⚠️ Obligatoire pour que ShaderMask fonctionne
+                      letterSpacing: 2,
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 110),
+                //Spacer(),
+                Image.asset(
+                  'assets/logo.png',
+                  width: 150,
+                  height: 150,
+                ),
+                SizedBox(height: 50),
+                
                 // Loading avec trois points oscillants
                 _LoadingDots(),
-                SizedBox(height: 40),
+                SizedBox(height: 10),
                 Spacer(),
               ],
             ),
@@ -118,7 +126,7 @@ class _LoadingDotsState extends State<_LoadingDots> with SingleTickerProviderSta
           children: List.generate(3, (index) {
             // Calculer le délai pour chaque point
             final delay = index * 0.33;
-            final value = (_controller.value - delay) % 1.0;
+            final value = ((_controller.value - delay) % 1.0 + 1.0) % 1.0;
             // Animation d'oscillation entre 0 et 1
             final opacity = (value < 0.5) ? value * 2 : 2 - (value * 2);
             final scale = 0.5 + (opacity * 0.5);
