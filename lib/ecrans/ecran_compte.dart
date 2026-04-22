@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../fournisseurs/fournisseur_auth.dart';
 import '../fournisseurs/fournisseur_theme.dart';
 import '../constantes/constantes_app.dart';
+import 'ecran_modifier_parametres.dart';
+import 'ecran_antecedents_medicaux.dart';
 
 class EcranCompte extends StatelessWidget {
   const EcranCompte({super.key});
@@ -70,7 +72,12 @@ class EcranCompte extends StatelessWidget {
             _buildElementMenu(
               icone: Icons.person_outline,
               titre: 'Mon Compte',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const EcranAntecedentsMedicaux()),
+                );
+              },
             ),
             // _buildElementMenu(
             //   icone: Icons.notifications_outlined,
@@ -88,8 +95,13 @@ class EcranCompte extends StatelessWidget {
             ),
             _buildElementMenu(
               icone: Icons.settings_outlined,
-              titre: 'Paramètres',
-              onTap: () {},
+              titre: 'Modifier les paramètres',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const EcranModifierParametres()),
+                );
+              },
             ),
             _buildElementMenu(
               icone: Icons.help_outline,

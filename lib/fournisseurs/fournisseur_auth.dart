@@ -59,4 +59,24 @@ class FournisseurAuth extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void mettreAJourProfil(String nomUtilisateur, String email) {
+    if (_utilisateurActuel != null) {
+      _utilisateurActuel = Utilisateur(
+        id: _utilisateurActuel!.id,
+        nomUtilisateur: nomUtilisateur,
+        email: email,
+        role: _utilisateurActuel!.role,
+        photoUrl: _utilisateurActuel!.photoUrl,
+      );
+      notifyListeners();
+    }
+  }
+
+  Future<bool> changerMotDePasse(String nouveauMotDePasse) async {
+    // Simule le changement de mot de passe
+    await Future.delayed(const Duration(milliseconds: 500));
+    // Dans une vraie app, on ferait un appel API
+    return true;
+  }
 }

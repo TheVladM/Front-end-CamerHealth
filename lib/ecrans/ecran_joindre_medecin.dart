@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../modeles/specialisation.dart';
+import 'ecran_medecins_par_categorie.dart';
 
 /// Écran pour joindre un médecin
 
@@ -17,7 +19,7 @@ class EcranJoindreMedecin extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'Trouvez un médecin',
+                'Choisissez une spécialité',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -26,7 +28,7 @@ class EcranJoindreMedecin extends StatelessWidget {
               const SizedBox(height: 20),
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Rechercher un médecin...',
+                  hintText: 'Rechercher une spécialité...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -37,21 +39,25 @@ class EcranJoindreMedecin extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 5,
+                itemCount: Specialisation.specialisationsMock.length,
                 itemBuilder: (context, index) {
+                  final specialisation = Specialisation.specialisationsMock[index];
                   return Card(
                     child: ListTile(
                       leading: const CircleAvatar(
-                        child: Icon(Icons.person),
+                        child: Icon(Icons.medical_services),
                       ),
-                      title: Text('Dr. Médecin ${index + 1}'),
-                      subtitle: const Text('Cardiologue'),
-                      trailing: ElevatedButton(
-                        onPressed: () {
-                          // TODO: Joindre le médecin
-                        },
-                        child: const Text('Joindre'),
-                      ),
+                      title: Text(specialisation.nom),
+                      subtitle: Text('${specialisation.nombreMedecins} médecins disponibles'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EcranMedecinsParCategorie(specialisation: specialisation),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },

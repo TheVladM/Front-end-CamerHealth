@@ -1,10 +1,17 @@
 # CamerHealth
 
-Une application Flutter moderne de suivi des patients a distance dans un contexte de pandemie
+Une application Flutter moderne de suivi des patients a distance dans un contexte de pandemie : Cas du covid 19
 
 ## 📋 Description
 
 CamerHealth est une application mobile développée par des etudiants de la promo 2027 de cybersecurte de l'ENSPY avec Flutter qui facilite la communication entre patients et professionnels de santé. Elle offre une interface moderne avec support du mode sombre, permettant aux utilisateurs de gérer leurs données de santé, consulter des statistiques, et communiquer avec leur médecin.
+
+## 🆕 Dernières mises à jour
+
+- **v1.1.0** - Avril 2026
+  - Ajout de la fonctionnalité "Modifier les paramètres" pour les patients
+  - Nouvelle page "Antécédents médicaux" avec formulaire complet
+  - Amélioration de la gestion du profil utilisateur
 
 ## ✨ Fonctionnalités
 
@@ -12,10 +19,13 @@ CamerHealth est une application mobile développée par des etudiants de la prom
 - **Connexion/Inscription** : Authentification sécurisée
 - **Tableau de bord** : Vue d'ensemble des données de santé
 - **Données Vitales** : Suivi des signes vitaux (fréquence cardiaque, température, nombre de pas)
+- **Médecins Disponibles** : Consultation de la liste des médecins, détails et paiement
 - **Discussions** : Messagerie directe avec les médecins
 - **Statistiques** : Graphiques et analyses des données de santé
 - **Prévention** : Conseils et rappels de prévention
 - **Rapports** : Génération de rapports médicaux
+- **Modifier les paramètres** : Modification du profil utilisateur (nom, email, mot de passe)
+- **Antécédents médicaux** : Formulaire pour saisir les informations médicales du patient
 
 ### Pour les Médecins
 - **Gestion des Patients** : Liste et suivi des patients assignés
@@ -45,8 +55,9 @@ CamerHealth est une application mobile développée par des etudiants de la prom
 
 ### Étapes d'installation
 
-1. **Cloner le repository**
+1. **Contribuer au projet**
    
+   Contactez les membres de la promo
 
 2. **Installer les dépendances**
    ```bash
@@ -73,6 +84,7 @@ CamerHealth est une application mobile développée par des etudiants de la prom
 
 ### Navigation
 - Utilisez le menu latéral pour accéder aux différentes sections
+- Depuis l'accueil patient, accédez aux "Médecins" pour voir la liste disponible
 - Le mode sombre peut être activé/désactivé dans les paramètres du compte
 
 ## 📁 Structure du Projet
@@ -85,6 +97,7 @@ lib/
 ├── modeles/                  # Modèles de données
 │   ├── utilisateur.dart
 │   ├── patient.dart
+│   ├── medecin.dart
 │   ├── message.dart
 │   └── specialisation.dart
 ├── fournisseurs/             # Providers pour la gestion d'état
@@ -97,11 +110,17 @@ lib/
 │   ├── ecran_inscription.dart
 │   ├── ecran_accueil_patient.dart
 │   ├── ecran_accueil_medecin.dart
+│   ├── ecran_liste_medecins.dart
+│   ├── ecran_detail_medecin.dart
 │   ├── ecran_compte.dart
+│   ├── ecran_modifier_parametres.dart
+│   ├── ecran_antecedents_medicaux.dart
 │   └── ...
 └── widgets/                  # Composants réutilisables
     ├── menu_lateral.dart
-    └── carte_patient.dart
+    ├── carte_patient.dart
+    ├── medecin_card.dart
+    └── ...
 ```
 
 ## 🧪 Tests
@@ -118,9 +137,16 @@ flutter test
 flutter build apk --release
 ```
 
-## 🤝 Contribution
+### iOS
+```bash
+flutter build ios --release
+```
 
-Les contributions se font sur le github final de la classe
+### Web
+```bash
+flutter build web --release
+```
+
 
 ### Guidelines
 - Respectez le style de code Flutter
@@ -132,4 +158,6 @@ Les contributions se font sur le github final de la classe
 
 - **Vladimir M.** - *Développeur front End* -
 - **Tresor D.** - *Développeur front End* -
+- **Farel M** - *Developpeur front End* -
+- **Varese A** - *Developpeur front End* -
 

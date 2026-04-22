@@ -12,6 +12,7 @@ import 'ecran_joindre_medecin.dart';
 import 'ecran_rapport.dart';
 import 'ecran_compte.dart';
 import 'ecran_liste_discussions.dart';
+import 'ecran_liste_medecins.dart';
 
 class EcranAccueilPatient extends StatefulWidget {
   const EcranAccueilPatient({super.key});
@@ -247,11 +248,11 @@ class _AccueilBody extends StatelessWidget {
       ),
       _ServiceItem(
         icon: Icons.medical_services,
-        label: 'Médecin',
+        label: 'Médecins',
         color: const Color(0xFF00ACC1),
         onTap: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const EcranJoindreMedecin()),
+          MaterialPageRoute(builder: (_) => const EcranListeMedecins()),
         ),
       ),
     ];
