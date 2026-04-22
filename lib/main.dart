@@ -4,6 +4,7 @@ import 'fournisseurs/fournisseur_auth.dart';
 import 'fournisseurs/fournisseur_chat.dart';
 import 'fournisseurs/fournisseur_stats.dart';
 import 'fournisseurs/fournisseur_theme.dart';
+import 'fournisseurs/fournisseur_donnees_patient.dart';
 import 'modeles/utilisateur.dart';
 import 'ecrans/ecran_connexion.dart';
 import 'ecrans/ecran_accueil_patient.dart';
@@ -19,6 +20,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => FournisseurChat()),
         ChangeNotifierProvider(create: (_) => FournisseurStats()),
         ChangeNotifierProvider(create: (_) => FournisseurTheme()),
+        ChangeNotifierProvider(create: (_) => FournisseurDonneesPatient()),
       ],
       child: const CamerHealthApp(),
     ),
@@ -37,7 +39,9 @@ class CamerHealthApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: themeProvider.obtenirTheme(),
           darkTheme: themeProvider.obtenirTheme(),
-          themeMode: themeProvider.estModeSombre ? ThemeMode.dark : ThemeMode.light,
+          themeMode: themeProvider.estModeSombre
+              ? ThemeMode.dark
+              : ThemeMode.light,
           home: EcranOuverture(),
           routes: {
             '/connexion': (context) => const EcranConnexion(),
@@ -62,7 +66,3 @@ class CamerHealthApp extends StatelessWidget {
     );
   }
 }
-
-
-
-

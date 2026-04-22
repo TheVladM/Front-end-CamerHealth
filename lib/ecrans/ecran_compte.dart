@@ -1,9 +1,11 @@
+import 'package:camerhealth/ecrans/ecran_informations_medecin.dart';
 import 'package:camerhealth/ecrans/ecran_modifier_compte.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../fournisseurs/fournisseur_auth.dart';
 import '../fournisseurs/fournisseur_theme.dart';
 import '../constantes/constantes_app.dart';
+import '../modeles/utilisateur.dart';
 import 'ecran_antecedents_medicaux.dart';
 
 class EcranCompte extends StatelessWidget {
@@ -14,11 +16,13 @@ class EcranCompte extends StatelessWidget {
     final authProvider = Provider.of<FournisseurAuth>(context);
     final utilisateur = authProvider.utilisateurActuel;
     final themeProvider = Provider.of<FournisseurTheme>(context);
+    final estMedecin = utilisateur?.role == RoleUtilisateur.medecin;
 
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
+            // ─── Avatar ──────────────────────────────────────────────────
             Container(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -38,8 +42,10 @@ class EcranCompte extends StatelessWidget {
                         bottom: 0,
                         right: 0,
                         child: Container(
-                          decoration: const BoxDecoration(
-                            color: ConstantesApp.couleurPrimaire,
+                          decoration: BoxDecoration(
+                            color: estMedecin
+                                ? ConstantesApp.couleurSecondaire
+                                : ConstantesApp.couleurPrimaire,
                             shape: BoxShape.circle,
                           ),
                           child: IconButton(
@@ -59,6 +65,15 @@ class EcranCompte extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
+                    utilisateur?.nomUtilisateur ?? '',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 4),
+                  Text(
                     'Changer photo',
                     style: TextStyle(
                       color: ConstantesApp.couleurPrimaire,
@@ -69,6 +84,9 @@ class EcranCompte extends StatelessWidget {
               ),
             ),
 
+            const Divider(height: 1),
+
+            // ─── Menus ───────────────────────────────────────────────────
             _buildElementMenu(
               icone: Icons.person_outline,
               titre: 'Mon Compte',
@@ -81,31 +99,41 @@ class EcranCompte extends StatelessWidget {
                 );
               },
             ),
-            // _buildElementMenu(
-            //   icone: Icons.notifications_outlined,
-            //   titre: 'Notifications',
-            //   onTap: () {},
-            // ),
+
+            // Menu conditionnel selon le rôle
+            if (estMedecin)
+              _buildElementMenu(
+                icone: Icons.badge_outlined,
+                titre: 'Informations du médecin',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const EcranInformationsMedecin(),
+                    ),
+                  );
+                },
+              )
+            else
+              _buildElementMenu(
+                icone: Icons.medical_services_outlined,
+                titre: 'Mes antécédents médicaux',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const EcranAntecedentsMedicaux(),
+                    ),
+                  );
+                },
+              ),
+
             _buildElementMenu(
               icone: Icons.brightness_4,
               titre: 'Mode Sombre',
-              onTap: () {
-                themeProvider.basculerModeNuit();
-              },
+              onTap: () => themeProvider.basculerModeNuit(),
               estToggleable: true,
               isActive: themeProvider.estModeSombre,
-            ),
-            _buildElementMenu(
-              icone: Icons.medical_services_outlined,
-              titre: 'Modifier mes données médicaux',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const EcranAntecedentsMedicaux(),
-                  ),
-                );
-              },
             ),
             _buildElementMenu(
               icone: Icons.help_outline,
@@ -121,7 +149,7 @@ class EcranCompte extends StatelessWidget {
                   builder: (context) => AlertDialog(
                     title: const Text('Déconnexion'),
                     content: const Text(
-                      'Voulez-vous vraiment vous déconnecter?',
+                      'Voulez-vous vraiment vous déconnecter ?',
                     ),
                     actions: [
                       TextButton(

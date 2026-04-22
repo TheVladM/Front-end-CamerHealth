@@ -42,8 +42,13 @@ CamerHealth est une application mobile développée par des etudiants de la prom
 ## 🛠️ Technologies Utilisées
 
 - **Flutter** : Framework de développement cross-platform
-- **Dart** : Langage de programmation
+- **Dart** : Langage de programmation (version ^3.9.2)
 - **Material Design 3** : Design system moderne
+- **Provider** : Gestion d'état réactive
+- **Intl** : Internationalisation et formatage
+- **Record & AudioPlayers** : Enregistrement et lecture audio
+- **File Picker** : Sélection de fichiers
+- **Permission Handler** : Gestion des permissions système
 
 ## 📦 Installation
 
@@ -91,37 +96,52 @@ CamerHealth est une application mobile développée par des etudiants de la prom
 
 ```
 lib/
-├── main.dart                 # Point d'entrée de l'application
+├── main.dart                          # Point d'entrée de l'application
 ├── constantes/
-│   └── constantes_app.dart   # Couleurs et constantes globales
-├── modeles/                  # Modèles de données
-│   ├── utilisateur.dart
-│   ├── patient.dart
-│   ├── medecin.dart
-│   ├── message.dart
-│   └── specialisation.dart
-├── fournisseurs/             # Providers pour la gestion d'état
-│   ├── fournisseur_auth.dart
-│   ├── fournisseur_chat.dart
-│   ├── fournisseur_stats.dart
-│   └── fournisseur_theme.dart
-├── ecrans/                   # Interfaces utilisateur
-│   ├── ecran_connexion.dart
-│   ├── ecran_inscription.dart
-│   ├── ecran_accueil_patient.dart
-│   ├── ecran_accueil_medecin.dart
-│   ├── ecran_liste_medecins.dart
-│   ├── ecran_detail_medecin.dart
-│   ├── ecran_compte.dart
-│   ├── ecran_modifier_parametres.dart
-│   ├── ecran_antecedents_medicaux.dart
-│   └── ...
-└── widgets/                  # Composants réutilisables
-    ├── menu_lateral.dart
-    ├── carte_patient.dart
-    ├── medecin_card.dart
-    └── ...
-```
+│   └── constantes_app.dart            # Couleurs et constantes globales
+├── modeles/                           # Modèles de données
+│   ├── utilisateur.dart               # Classe utilisateur de base
+│   ├── patient.dart                   # Modèle de patient
+│   ├── medecin.dart                   # Modèle de médecin
+│   ├── message.dart                   # Modèle de message
+│   └── specialisation.dart            # Spécialités médicales
+├── fournisseurs/                      # Providers (gestion d'état)
+│   ├── fournisseur_auth.dart          # Gestion de l'authentification
+│   ├── fournisseur_chat.dart          # Gestion des discussions
+│   ├── fournisseur_donnees_patient.dart # Données des patients
+│   ├── fournisseur_stats.dart         # Gestion des statistiques
+│   └── fournisseur_theme.dart         # Gestion du thème (clair/sombre)
+├── ecrans/                            # Interfaces utilisateur
+│   ├── ecran_ouverture.dart           # Écran de démarrage
+│   ├── ecran_connexion.dart           # Connexion utilisateur
+│   ├── ecran_inscription.dart         # Inscription des nouveaux utilisateurs
+│   ├── ecran_accueil_patient.dart     # Tableau de bord patient
+│   ├── ecran_accueil_medecin.dart     # Tableau de bord médecin
+│   ├── ecran_liste_medecins.dart      # Liste des médecins disponibles
+│   ├── ecran_detail_medecin.dart      # Détails d'un médecin
+│   ├── ecran_donnees_vitales.dart     # Suivi des signes vitaux
+│   ├── ecran_statistiques.dart        # Graphiques et analyses
+│   ├── ecran_prevention.dart          # Conseils de prévention
+│   ├── ecran_symptomes.dart           # Saisie des symptômes
+│   ├── ecran_rapport.dart             # Génération de rapports
+│   ├── ecran_compte.dart              # Gestion du profil
+│   ├── ecran_modifier_compte.dart     # Modification du profil
+│   ├── ecran_antecedents_medicaux.dart # Historique médical
+│   ├── ecran_liste_discussions.dart   # Messagerie avec les médecins
+│  📦 Dépendances
+
+### Runtime
+- `provider: ^6.1.1` - Gestion d'état avec Provider
+- `intl: ^0.20.2` - Internationalisation et formatage des dates
+- `record: ^6.2.0` - Enregistrement audio
+- `audioplayers: ^6.6.0` - Lecteur audio
+- `file_picker: ^11.0.2` - Sélecteur de fichiers
+- `path_provider: ^2.1.3` - Accès aux répertoires système
+- `permission_handler: ^12.0.1` - Gestion des permissions
+
+### Développement
+- `flutter_lints: ^6.0.0` - Linters Flutter
+- `flutter_test` - Framework de test Flutter
 
 ## 🧪 Tests
 
@@ -129,6 +149,35 @@ Pour exécuter les tests :
 ```bash
 flutter test
 ```
+
+## 📱 Déploiement
+
+### Android
+```bash
+flutter build apk --release
+```
+
+### iOS
+```bash
+flutter build ios --release
+```
+
+### Web
+```bash
+flutter build web --release
+```
+
+## 👥 Contributeurs
+
+Application développée par les étudiants de la promotion 2027 en Cybersécurité de l'ENSPY.
+
+## 📄 Licence
+
+Ce projet est confidentiel et réservé à l'usage pédagogique.
+
+## 📞 Support
+
+Pour toute question ou problème, contactez l'équipe de développement.
 
 ## 📱 Déploiement
 

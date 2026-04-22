@@ -126,7 +126,7 @@ class _AccueilBody extends StatelessWidget {
               ),
               TextSpan(
                 text: prenom,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),

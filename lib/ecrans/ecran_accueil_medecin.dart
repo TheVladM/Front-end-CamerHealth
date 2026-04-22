@@ -1,4 +1,5 @@
 import 'package:camerhealth/widgets/barre_navigation_medecin.dart';
+import 'package:camerhealth/widgets/notification_icon.dart';
 import 'package:flutter/material.dart';
 import '../constantes/constantes_app.dart';
 import '../modeles/patient.dart';
@@ -18,90 +19,18 @@ class EcranAccueilMedecin extends StatefulWidget {
 class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    // Navigate if needed
-    switch (index) {
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const EcranStatistiques()),
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const EcranListeDiscussions()),
-        );
-        break;
-      case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const EcranCompte()),
-        );
-        break;
-    }
-  }
-
-  Widget _getBodyWidget(int index) {
-    switch (index) {
+  String _getPageTitle() {
+    switch (_selectedIndex) {
       case 0:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Mes patients',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Patients enregistrés',
-                style: TextStyle(color: ConstantesApp.couleurTexteClair),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: Patient.patientsMock.length,
-                itemBuilder: (context, index) {
-                  final patient = Patient.patientsMock[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              EcranProfilPatient(patient: patient),
-                        ),
-                      );
-                    },
-                    child: CartePatient(
-                      id: patient.id,
-                      nom: patient.nom.split(' ').last,
-                      prenom: patient.nom.split(' ').first,
-                      age: 30, // Valeur par défaut, à ajuster selon les besoins
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+        return ConstantesApp.nomApp;
       case 1:
-        return const Center(child: Text('Statistiques'));
+        return 'Statistiques';
       case 2:
-        return const Center(child: Text('Discussions'));
+        return 'Discussions';
       case 3:
-        return const Center(child: Text('Compte'));
+        return 'Compte';
       default:
-        return const Center(child: Text('Accueil'));
+        return ConstantesApp.nomApp;
     }
   }
 
@@ -109,41 +38,117 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/logo.png', height: 40),
-        backgroundColor: ConstantesApp.couleurPrimaire,
-        foregroundColor: Colors.white,
+        title: Text(
+          _getPageTitle(),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        leading: Container(
+          margin: const EdgeInsets.only(left: 10),
+          child: Image.asset('assets/logo.png', height: 40),
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: RecherchePatientDelegate(),
-              );
-            },
-          ),
+          // Bouton recherche uniquement sur l'onglet patients
+          if (_selectedIndex == 0)
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: RecherchePatientDelegate(),
+                );
+              },
+            ),
+          const NotificationIcon(),
         ],
       ),
-
-      body: _getBodyWidget(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          _PatientsBody(),
+          // showAppBar: false évite la double AppBar dans l'IndexedStack
+          const EcranStatistiques(showAppBar: false),
+          const EcranListeDiscussions(),
+          const EcranCompte(),
+        ],
+      ),
       bottomNavigationBar: BarreNavigationMedecin(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
+        onItemTapped: (index) {
+          setState(() => _selectedIndex = index);
+        },
       ),
     );
   }
 }
 
+// ─── Corps "Mes patients" ──────────────────────────────────────────────────
+
+class _PatientsBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Mes patients',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${Patient.patientsMock.length} patients enregistrés',
+                  style: const TextStyle(
+                    color: ConstantesApp.couleurTexteClair,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              itemCount: Patient.patientsMock.length,
+              itemBuilder: (context, index) {
+                final patient = Patient.patientsMock[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => EcranProfilPatient(patient: patient),
+                      ),
+                    );
+                  },
+                  child: CartePatient(
+                    id: patient.id,
+                    nom: patient.nom.split(' ').last,
+                    prenom: patient.nom.split(' ').first,
+                    age: 30,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Délégué de recherche ──────────────────────────────────────────────────
+
 class RecherchePatientDelegate extends SearchDelegate<Patient?> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
+      IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
     ];
   }
 
@@ -151,9 +156,7 @@ class RecherchePatientDelegate extends SearchDelegate<Patient?> {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
+      onPressed: () => close(context, null),
     );
   }
 
@@ -162,8 +165,7 @@ class RecherchePatientDelegate extends SearchDelegate<Patient?> {
     final resultats = Patient.patientsMock
         .where((p) => p.nom.toLowerCase().contains(query.toLowerCase()))
         .toList();
-
-    return _buildListeResultats(resultats);
+    return _buildListeResultats(context, resultats);
   }
 
   @override
@@ -171,15 +173,13 @@ class RecherchePatientDelegate extends SearchDelegate<Patient?> {
     final suggestions = Patient.patientsMock
         .where((p) => p.nom.toLowerCase().contains(query.toLowerCase()))
         .toList();
-
-    return _buildListeResultats(suggestions);
+    return _buildListeResultats(context, suggestions);
   }
 
-  Widget _buildListeResultats(List<Patient> resultats) {
+  Widget _buildListeResultats(BuildContext context, List<Patient> resultats) {
     if (resultats.isEmpty) {
       return const Center(child: Text('Aucun patient trouvé'));
     }
-
     return ListView.builder(
       itemCount: resultats.length,
       itemBuilder: (context, index) {
@@ -193,7 +193,7 @@ class RecherchePatientDelegate extends SearchDelegate<Patient?> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EcranProfilPatient(patient: patient),
+                builder: (_) => EcranProfilPatient(patient: patient),
               ),
             );
           },
