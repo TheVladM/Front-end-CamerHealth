@@ -17,7 +17,9 @@ class FournisseurChat extends ChangeNotifier {
         expediteurId: 'patient',
         destinataireId: 'medecin',
         contenu: 'Okay docteur.',
-        horodatage: DateTime.now().subtract(const Duration(hours: 8, minutes: 51)),
+        horodatage: DateTime.now().subtract(
+          const Duration(hours: 8, minutes: 51),
+        ),
         estLu: true,
       ),
       Message(
@@ -33,7 +35,9 @@ class FournisseurChat extends ChangeNotifier {
         expediteurId: 'medecin',
         destinataireId: 'patient',
         contenu: 'Merci docteur',
-        horodatage: DateTime.now().subtract(const Duration(hours: 2, minutes: 50)),
+        horodatage: DateTime.now().subtract(
+          const Duration(hours: 2, minutes: 50),
+        ),
         estLu: true,
       ),
     ],
@@ -53,7 +57,9 @@ class FournisseurChat extends ChangeNotifier {
         expediteurId: 'medecin',
         destinataireId: 'patient',
         contenu: 'Ok Doc. J\'attends l\'entretien',
-        horodatage: DateTime.now().subtract(const Duration(hours: 7, minutes: 30)),
+        horodatage: DateTime.now().subtract(
+          const Duration(hours: 7, minutes: 30),
+        ),
         estLu: true,
       ),
     ],
@@ -76,7 +82,21 @@ class FournisseurChat extends ChangeNotifier {
     return _conversations[nomContact] ?? [];
   }
 
-  void envoyerMessage(String nomContact, String contenu, {bool estDeMedecin = true, TypeMessage type = TypeMessage.texte, String? urlMedia}) {
+  int obtenirNombreMessagesNonLus() {
+    int total = 0;
+    for (final messages in _conversations.values) {
+      total += messages.where((msg) => !msg.estLu).length;
+    }
+    return total;
+  }
+
+  void envoyerMessage(
+    String nomContact,
+    String contenu, {
+    bool estDeMedecin = true,
+    TypeMessage type = TypeMessage.texte,
+    String? urlMedia,
+  }) {
     final nouveauMessage = Message(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       expediteurId: estDeMedecin ? 'medecin' : 'patient',
@@ -87,7 +107,7 @@ class FournisseurChat extends ChangeNotifier {
       type: type,
       urlMedia: urlMedia,
     );
-    
+
     if (_conversations.containsKey(nomContact)) {
       _conversations[nomContact]!.add(nouveauMessage);
     } else {

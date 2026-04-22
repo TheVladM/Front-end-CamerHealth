@@ -60,11 +60,7 @@ class _EcranConnexionState extends State<EcranConnexion> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
-              Image.asset(
-                'assets/logo.png',
-                height: 80,
-                width: 80,
-              ),
+              Image.asset('assets/logo.png', height: 80, width: 80),
               const SizedBox(height: 20),
               Text(
                 ConstantesApp.nomApp,
@@ -78,20 +74,20 @@ class _EcranConnexionState extends State<EcranConnexion> {
               const SizedBox(height: 20),
 
               Row(
-  mainAxisAlignment: MainAxisAlignment.end,
-  children: [
-    Icon(
-      themeProvider.estModeSombre
-          ? Icons.dark_mode
-          : Icons.light_mode,
-    ),
-    Switch(
-      value: themeProvider.estModeSombre,
-      onChanged: (value) =>
-          themeProvider.definirModeSombre(value),
-    ),
-  ],
-),
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Icon(
+                    themeProvider.estModeSombre
+                        ? Icons.dark_mode
+                        : Icons.light_mode,
+                  ),
+                  Switch(
+                    value: themeProvider.estModeSombre,
+                    onChanged: (value) =>
+                        themeProvider.definirModeSombre(value),
+                  ),
+                ],
+              ),
 
               // Sélection du rôle d'utilisateur : patient ou médecin
               Text(
@@ -234,7 +230,7 @@ class _EcranConnexionState extends State<EcranConnexion> {
                       )
                     : const Text(
                         'Se connecter',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
               ),
               const SizedBox(height: 16),

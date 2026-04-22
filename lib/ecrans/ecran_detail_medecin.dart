@@ -4,10 +4,7 @@ import '../modeles/medecin.dart';
 class EcranDetailMedecin extends StatelessWidget {
   final Medecin medecin;
 
-  const EcranDetailMedecin({
-    Key? key,
-    required this.medecin,
-  }) : super(key: key);
+  const EcranDetailMedecin({Key? key, required this.medecin}) : super(key: key);
 
   ImageProvider _getImageProvider(String? photoUrl) {
     if (photoUrl != null && photoUrl.startsWith('assets/')) {
@@ -52,20 +49,13 @@ class EcranDetailMedecin extends StatelessWidget {
                   // Spécialité
                   Text(
                     medecin.specialisation?.nom ?? 'Spécialité inconnue',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 16),
                   // Note et expérience
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                        size: 20,
-                      ),
+                      const Icon(Icons.star, color: Colors.amber, size: 20),
                       const SizedBox(width: 4),
                       Text(
                         '${medecin.note}',
@@ -75,18 +65,11 @@ class EcranDetailMedecin extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 24),
-                      const Icon(
-                        Icons.work,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
+                      const Icon(Icons.work, color: Colors.grey, size: 20),
                       const SizedBox(width: 4),
                       Text(
                         '${medecin.experience} ans d\'expérience',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -94,27 +77,18 @@ class EcranDetailMedecin extends StatelessWidget {
                   // Description
                   const Text(
                     'Description',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     medecin.description,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      height: 1.5,
-                    ),
+                    style: const TextStyle(fontSize: 16, height: 1.5),
                   ),
                   const SizedBox(height: 40),
                   // Boutons de paiement
                   const Text(
                     'Paiement',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -125,7 +99,9 @@ class EcranDetailMedecin extends StatelessWidget {
                             // Note a AimeLin et l'equipe de Backend : Implémenter paiement Orange Money
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Paiement avec Orange Money - Fonctionnalité à implémenter'),
+                                content: Text(
+                                  'Paiement avec Orange Money - Fonctionnalité à implémenter',
+                                ),
                               ),
                             );
                           },
@@ -133,7 +109,10 @@ class EcranDetailMedecin extends StatelessWidget {
                             height: 60,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.orange, width: 2),
+                              border: Border.all(
+                                color: Colors.orange,
+                                width: 2,
+                              ),
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
@@ -152,7 +131,9 @@ class EcranDetailMedecin extends StatelessWidget {
                             // Note a AimeLin et l'equipe de Backend : Implémenter paiement MTN Money
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Paiement avec MTN Money - Fonctionnalité à implémenter'),
+                                content: Text(
+                                  'Paiement avec MTN Money - Fonctionnalité à implémenter',
+                                ),
                               ),
                             );
                           },
@@ -160,7 +141,10 @@ class EcranDetailMedecin extends StatelessWidget {
                             height: 60,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.yellow.shade700, width: 2),
+                              border: Border.all(
+                                color: Colors.yellow.shade700,
+                                width: 2,
+                              ),
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),

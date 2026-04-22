@@ -9,15 +9,12 @@ class EcranStatistiques extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Statistiques'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Statistiques'), elevation: 0),
       body: Consumer<FournisseurStats>(
         builder: (context, statsProvider, _) {
           final stats = statsProvider.statsActuelles;
           final estGlobal = statsProvider.estGlobal;
-          
+
           return Column(
             children: [
               Container(
@@ -48,9 +45,12 @@ class EcranStatistiques extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     const Expanded(
@@ -77,17 +77,17 @@ class EcranStatistiques extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               const Divider(),
-              
+
               _buildLigneStat('Cas', stats['cas']),
               _buildLigneStat('Morts', stats['deces']),
               _buildLigneStat('Guerison', stats['guerisons']),
               _buildLigneStat('Actifs', stats['actifs']),
               _buildLigneStat('Critiques', stats['critiques']),
-              
+
               const SizedBox(height: 24),
-              
+
               Container(
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(16),
@@ -142,17 +142,23 @@ class EcranStatistiques extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: estSelectionne ? ConstantesApp.couleurPrimaire : Colors.transparent,
+          color: estSelectionne
+              ? ConstantesApp.couleurPrimaire
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: estSelectionne ? ConstantesApp.couleurPrimaire : Colors.grey.shade300,
+            color: estSelectionne
+                ? ConstantesApp.couleurPrimaire
+                : Colors.grey.shade300,
           ),
         ),
         child: Text(
           titre,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: estSelectionne ? Colors.white : ConstantesApp.couleurTexteFonce,
+            color: estSelectionne
+                ? Colors.white
+                : ConstantesApp.couleurTexteFonce,
             fontWeight: estSelectionne ? FontWeight.bold : FontWeight.normal,
           ),
         ),
@@ -167,19 +173,13 @@ class EcranStatistiques extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Text(
-              label,
-              style: const TextStyle(fontSize: 16),
-            ),
+            child: Text(label, style: const TextStyle(fontSize: 16)),
           ),
           Expanded(
             child: Text(
               valeur.toString(),
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ),
           Expanded(

@@ -5,17 +5,22 @@ class EcranAntecedentsMedicaux extends StatefulWidget {
   const EcranAntecedentsMedicaux({super.key});
 
   @override
-  State<EcranAntecedentsMedicaux> createState() => _EcranAntecedentsMedicauxState();
+  State<EcranAntecedentsMedicaux> createState() =>
+      _EcranAntecedentsMedicauxState();
 }
 
 class _EcranAntecedentsMedicauxState extends State<EcranAntecedentsMedicaux> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _allergiesController = TextEditingController();
-  final TextEditingController _maladiesChroniquesController = TextEditingController();
+  final TextEditingController _maladiesChroniquesController =
+      TextEditingController();
   final TextEditingController _medicamentsController = TextEditingController();
-  final TextEditingController _antecedentsFamiliauxController = TextEditingController();
-  final TextEditingController _interventionsChirurgicalesController = TextEditingController();
-  final TextEditingController _groupeSanguinController = TextEditingController();
+  final TextEditingController _antecedentsFamiliauxController =
+      TextEditingController();
+  final TextEditingController _interventionsChirurgicalesController =
+      TextEditingController();
+  final TextEditingController _groupeSanguinController =
+      TextEditingController();
   bool _fumeur = false;
   bool _alcool = false;
   bool _activitePhysique = false;
@@ -168,17 +173,20 @@ class _EcranAntecedentsMedicauxState extends State<EcranAntecedentsMedicaux> {
                 CheckboxListTile(
                   title: const Text('Fumeur'),
                   value: _fumeur,
-                  onChanged: (value) => setState(() => _fumeur = value ?? false),
+                  onChanged: (value) =>
+                      setState(() => _fumeur = value ?? false),
                 ),
                 CheckboxListTile(
                   title: const Text('Consommation d\'alcool'),
                   value: _alcool,
-                  onChanged: (value) => setState(() => _alcool = value ?? false),
+                  onChanged: (value) =>
+                      setState(() => _alcool = value ?? false),
                 ),
                 CheckboxListTile(
                   title: const Text('Activité physique régulière'),
                   value: _activitePhysique,
-                  onChanged: (value) => setState(() => _activitePhysique = value ?? false),
+                  onChanged: (value) =>
+                      setState(() => _activitePhysique = value ?? false),
                 ),
                 const SizedBox(height: 24),
 
@@ -186,6 +194,10 @@ class _EcranAntecedentsMedicauxState extends State<EcranAntecedentsMedicaux> {
                   onPressed: _sauvegarderAntecedents,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ConstantesApp.couleurPrimaire,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: const Text('Sauvegarder'),

@@ -7,7 +7,8 @@ class EcranModifierParametres extends StatefulWidget {
   const EcranModifierParametres({super.key});
 
   @override
-  State<EcranModifierParametres> createState() => _EcranModifierParametresState();
+  State<EcranModifierParametres> createState() =>
+      _EcranModifierParametresState();
 }
 
 class _EcranModifierParametresState extends State<EcranModifierParametres> {
@@ -24,7 +25,9 @@ class _EcranModifierParametresState extends State<EcranModifierParametres> {
     super.initState();
     final authProvider = Provider.of<FournisseurAuth>(context, listen: false);
     final utilisateur = authProvider.utilisateurActuel;
-    _nomController = TextEditingController(text: utilisateur?.nomUtilisateur ?? '');
+    _nomController = TextEditingController(
+      text: utilisateur?.nomUtilisateur ?? '',
+    );
     _emailController = TextEditingController(text: utilisateur?.email ?? '');
     _ancienMdpController = TextEditingController();
     _nouveauMdpController = TextEditingController();
@@ -69,7 +72,9 @@ class _EcranModifierParametresState extends State<EcranModifierParametres> {
     setState(() => _estEnChargement = true);
 
     final authProvider = Provider.of<FournisseurAuth>(context, listen: false);
-    final success = await authProvider.changerMotDePasse(_nouveauMdpController.text);
+    final success = await authProvider.changerMotDePasse(
+      _nouveauMdpController.text,
+    );
 
     setState(() => _estEnChargement = false);
 
@@ -82,7 +87,9 @@ class _EcranModifierParametresState extends State<EcranModifierParametres> {
       _confirmerMdpController.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erreur lors du changement de mot de passe')),
+        const SnackBar(
+          content: Text('Erreur lors du changement de mot de passe'),
+        ),
       );
     }
   }
@@ -143,11 +150,18 @@ class _EcranModifierParametresState extends State<EcranModifierParametres> {
                   onPressed: _estEnChargement ? null : _sauvegarderProfil,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ConstantesApp.couleurPrimaire,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: _estEnChargement
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Sauvegarder le profil'),
+                      : const Text(
+                          'Sauvegarder le profil',
+                          style: TextStyle(color: Colors.white),
+                        ),
                 ),
                 const SizedBox(height: 32),
                 const Text(
@@ -198,11 +212,18 @@ class _EcranModifierParametresState extends State<EcranModifierParametres> {
                   onPressed: _estEnChargement ? null : _changerMotDePasse,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ConstantesApp.couleurPrimaire,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   child: _estEnChargement
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Changer le mot de passe'),
+                      : const Text(
+                          'Changer le mot de passe',
+                          style: TextStyle(color: Colors.white),
+                        ),
                 ),
               ],
             ),

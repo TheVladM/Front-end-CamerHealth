@@ -114,21 +114,22 @@ class _AccueilBody extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              ConstantesApp.salutation,
-              style: TextStyle(
-                fontSize: 14,
-                color: ConstantesApp.couleurTexteClair,
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Bonjour, ',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: ConstantesApp.couleurTexteClair,
+                ),
               ),
-            ),
-            Text(
-              prenom,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ],
+              TextSpan(
+                text: prenom,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ],
     );

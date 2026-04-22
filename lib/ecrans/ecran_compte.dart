@@ -1,9 +1,9 @@
+import 'package:camerhealth/ecrans/ecran_modifier_compte.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../fournisseurs/fournisseur_auth.dart';
 import '../fournisseurs/fournisseur_theme.dart';
 import '../constantes/constantes_app.dart';
-import 'ecran_modifier_parametres.dart';
 import 'ecran_antecedents_medicaux.dart';
 
 class EcranCompte extends StatelessWidget {
@@ -75,7 +75,9 @@ class EcranCompte extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const EcranAntecedentsMedicaux()),
+                  MaterialPageRoute(
+                    builder: (_) => const EcranModifierParametres(),
+                  ),
                 );
               },
             ),
@@ -94,12 +96,14 @@ class EcranCompte extends StatelessWidget {
               isActive: themeProvider.estModeSombre,
             ),
             _buildElementMenu(
-              icone: Icons.settings_outlined,
-              titre: 'Modifier les paramètres',
+              icone: Icons.medical_services_outlined,
+              titre: 'Modifier mes données médicaux',
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const EcranModifierParametres()),
+                  MaterialPageRoute(
+                    builder: (_) => const EcranAntecedentsMedicaux(),
+                  ),
                 );
               },
             ),
