@@ -12,6 +12,7 @@ class Medecin {
   final double note;
   final int experience;
   final String description;
+  final String langue;
 
   Medecin({
     required this.id,
@@ -24,6 +25,7 @@ class Medecin {
     required this.note,
     required this.experience,
     required this.description,
+    required this.langue,
   });
 
   Specialisation? get specialisation {
@@ -44,6 +46,7 @@ class Medecin {
       note: 4.8,
       experience: 12,
       description: 'Médecin dentiste expérimenté avec plus de 10 ans de pratique. Spécialisé en soins dentaires préventifs et restaurateurs.',
+      langue: 'Français',
     ),
     Medecin(
       id: '2',
@@ -56,6 +59,7 @@ class Medecin {
       note: 4.6,
       experience: 8,
       description: 'Dentiste passionnée par l\'esthétique dentaire. Utilise les dernières technologies pour des sourires parfaits.',
+      langue: 'Français, Anglais',
     ),
     Medecin(
       id: '3',
@@ -68,6 +72,7 @@ class Medecin {
       note: 4.9,
       experience: 15,
       description: 'Spécialiste en pneumologie avec expertise en maladies respiratoires. Ancien chef de service à l\'hôpital universitaire.',
+      langue: 'Français',
     ),
     Medecin(
       id: '4',
@@ -80,6 +85,7 @@ class Medecin {
       note: 4.7,
       experience: 10,
       description: 'Gastroentérologue spécialisé en endoscopie digestive. Membre de la société française de gastroentérologie.',
+      langue: 'Français, Anglais',
     ),
     Medecin(
       id: '5',
@@ -92,6 +98,7 @@ class Medecin {
       note: 4.8,
       experience: 18,
       description: 'Cardiologue interventionnel avec plus de 15 ans d\'expérience en angioplastie et stents coronariens.',
+      langue: 'Français',
     ),
     Medecin(
       id: '6',
@@ -104,6 +111,7 @@ class Medecin {
       note: 4.5,
       experience: 9,
       description: 'Cardiologue spécialisé en électrophysiologie. Expert en traitement des arythmies cardiaques.',
+      langue: 'Anglais',
     ),
     Medecin(
       id: '7',
@@ -116,6 +124,7 @@ class Medecin {
       note: 4.6,
       experience: 11,
       description: 'Pharmacien titulaire avec expertise en pharmacie clinique. Conseils personnalisés pour votre santé.',
+      langue: 'Français, Anglais',
     ),
   ];
 

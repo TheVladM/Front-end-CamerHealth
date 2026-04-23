@@ -1,13 +1,16 @@
 import 'package:camerhealth/widgets/barre_navigation_medecin.dart';
 import 'package:camerhealth/widgets/notification_icon.dart';
+import 'package:camerhealth/widgets/header_medecin_profile.dart';
 import 'package:flutter/material.dart';
 import '../constantes/constantes_app.dart';
 import '../modeles/patient.dart';
+import '../modeles/medecin.dart';
 import '../widgets/carte_patient.dart';
 import 'ecran_liste_discussions.dart';
 import 'ecran_statistiques.dart';
 import 'ecran_compte.dart';
 import 'ecran_profil_patient.dart';
+import 'ecran_profil_medecin.dart';
 
 class EcranAccueilMedecin extends StatefulWidget {
   const EcranAccueilMedecin({super.key});
@@ -38,6 +41,7 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 120,
         title: Text(
           _getPageTitle(),
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -47,18 +51,45 @@ class _EcranAccueilMedecinState extends State<EcranAccueilMedecin> {
           child: Image.asset('assets/logo.png', height: 40),
         ),
         actions: [
-          // Bouton recherche uniquement sur l'onglet patients
-          if (_selectedIndex == 0)
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: RecherchePatientDelegate(),
-                );
-              },
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Icônes en haut
+                Row(
+                  children: [
+                    // Bouton recherche uniquement sur l'onglet patients
+                    if (_selectedIndex == 0)
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          showSearch(
+                            context: context,
+                            delegate: RecherchePatientDelegate(),
+                          );
+                        },
+                      ),
+                    const NotificationIcon(),
+                  ],
+                ),
+                // Profil en dessous
+                HeaderMedecinProfile(
+                  medecin: Medecin.medecinsMock.first,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EcranProfilMedecin(
+                          medecin: Medecin.medecinsMock.first,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          const NotificationIcon(),
+          ),
         ],
       ),
       body: IndexedStack(
