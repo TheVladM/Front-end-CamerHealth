@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 /// Écran affichant les rapports de santé
 
 class EcranRapport extends StatelessWidget {
-  const EcranRapport({Key? key}) : super(key: key);
+  final String? patientId;
+  final String? patientNom;
+
+  const EcranRapport({
+    Key? key,
+    this.patientId,
+    this.patientNom,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

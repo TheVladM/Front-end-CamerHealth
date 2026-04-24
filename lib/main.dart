@@ -5,6 +5,7 @@ import 'fournisseurs/fournisseur_chat.dart';
 import 'fournisseurs/fournisseur_stats.dart';
 import 'fournisseurs/fournisseur_theme.dart';
 import 'fournisseurs/fournisseur_donnees_patient.dart';
+import 'fournisseurs/fournisseur_antecedents_medicaux.dart';
 import 'modeles/utilisateur.dart';
 import 'ecrans/ecran_connexion.dart';
 import 'ecrans/ecran_accueil_patient.dart';
@@ -21,6 +22,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => FournisseurStats()),
         ChangeNotifierProvider(create: (_) => FournisseurTheme()),
         ChangeNotifierProvider(create: (_) => FournisseurDonneesPatient()),
+        ChangeNotifierProvider(create: (_) => FournisseurAntecedentsMedicaux()),
       ],
       child: const CamerHealthApp(),
     ),

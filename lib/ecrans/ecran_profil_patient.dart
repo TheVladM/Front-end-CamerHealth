@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../constantes/constantes_app.dart';
 import '../modeles/patient.dart';
+import '../modeles/medecin.dart';
+import 'ecran_detail_discussion.dart';
+import 'ecran_dossier_medical.dart';
+import 'ecran_rapport_medecin.dart';
 
 class EcranProfilPatient extends StatelessWidget {
   final Patient patient;
@@ -141,6 +145,105 @@ class EcranProfilPatient extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  const SizedBox(height: 40),
+
+                  // ─── Section Boutons d'Actions ──────────────────────
+                  Text(
+                    'Actions',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: theme.textTheme.titleLarge?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  // Bouton Discussion
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EcranDetailDiscussion(
+                              discussionId: patient.id,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.chat_bubble),
+                      label: const Text('Discussion'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ConstantesApp.couleurPrimaire,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Bouton Dossier Médical
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EcranDossierMedical(
+                              patient: patient,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.folder_open),
+                      label: const Text('Dossier Médical'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ConstantesApp.couleurSecondaire,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Bouton Rapport
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EcranRapportMedecin(
+                              patient: patient,
+                              medecin: Medecin.medecinsMock.first,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.description),
+                      label: const Text('Rédiger Rapport'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFFB8C00), // Orange
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
                 ],
               ),
             ),

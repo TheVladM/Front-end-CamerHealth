@@ -113,7 +113,7 @@ class EcranProfilMedecin extends StatelessWidget {
                           children: [
                             // Nom
                             Text(
-                              'Dr. ${medecin.nom}',
+                              ' ${medecin.nom}',
                               style: const TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,

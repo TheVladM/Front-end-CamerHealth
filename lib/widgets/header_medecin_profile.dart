@@ -23,7 +23,7 @@ class HeaderMedecinProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Dr. ${medecin.nom}',
+                '${medecin.nom}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
